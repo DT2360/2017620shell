@@ -1,0 +1,49 @@
+criptor 文件描述符
+
+文件描述符：
+内核（kernel）利用文件描述符（file descriptor）来访问文件。文件描述符是非负整数。打开现存文件或新建文件时，内核会返回一个文件描述符。读写文件也需要使用文件描述符来指定待读写的文件。
+进程打开了很多文件，然后给每个文件进行编号，这个编号就是文件的描述符。
+进程对文件进行读或者写操作的时候，会使用文件描述符来查找文件，不是文件名。
+====
+[17:36:11 root@zoro dev]#ulimit -n
+1024
+[17:38:21 root@zoro dev]#ulimit -a  查看linux内核里对那些参数进行了限制
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 7359
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 1024
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 10240
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 7359
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+[17:38:24 root@zoro dev]#
+[17:42:19 root@zoro dev]#ulimit -n 65535  修改一个内核允许一个进程打开的文件的数量（文件描述符的范围）
+====
+[17:46:14 root@zoro dev]#vim /etc/rc.local   ---》让linux系统开机自动执行/etc/rc.local文件里的这条命令
+[17:46:41 root@zoro dev]#cat /etc/rc.local 
+#!/bin/sh
+#
+# This script will be executed *after* all the other init scripts.
+# You can put your own initialization stuff in here if you don't
+# want to do the full Sys V style init stuff.
+
+touch /var/lock/subsys/local
+ulimit -n 65535    
+[17:46:45 root@zoro dev]#
+===
+control 
+===
+真正的永久修改文件描述符的范围
+[root@iZwz9fsrejd28mi5j7ngapZ www.sanlelearning.com]# vim /etc/sysctl.conf 
+fs.file-max=65535    ----》修改一个进程可以打开最大的文件的数量
+[root@localhost fd]# sysctl -p  让修改文件后的配置生效
+fs.file-max = 65535
+[root@localhost fd]#

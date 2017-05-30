@@ -1,0 +1,90 @@
+
+ss
+===
+文件系统：管理文件的一套系统
+	1.对文件进行查找、命名、读写
+	2.一个磁盘可以存放多少个文件，一个文件最大可以多大
+[18:31:44 root@zoro fd]#df -Th  查看挂载的分区使用的情况
+Filesystem     Type   Size  Used Avail Use% Mounted on
+/dev/sda3      ext4    95G  2.8G   87G   4% /
+tmpfs          tmpfs  935M     0  935M   0% /dev/shm
+/dev/sda1      ext4   190M   40M  141M  23% /boot
+[18:37:28 root@zoro fd]#
+NTFS 是windows里的文件系统类型
+ext3、ext4是linux里的文件系统的类型
+文件系统也可以理解成社会制度
+中国是社会主义、美国是资本主义
+===
+proc文件系统里存放的就是linux内核里的信息。
+/proc里存放的是内核里的信息
+	1.cpu、内存、进程、磁盘进行管理
+[root@iZwz9fsrejd28mi5j7ngapZ fd]# cat /proc/cpuinfo 
+model name	: Intel(R) Xeon(R) CPU E5-2630 0 @ 2.30GHz
+cpu cores	: 1
+===
+Xeon：至强   这款类型cpu主要是服务器专用
+core：酷睿   这款类型cpu主要是个人桌面电脑使用
+===
+Intel和AMD
+龙芯
+华为：麒麟
+小米：澎湃
+联发科
+高通：骁龙
+===
+cpu需要考虑是针对手机的还是电脑的。
+===
+[root@iZwz9fsrejd28mi5j7ngapZ fd]# cat /proc/meminfo  查看内存的使用信息
+===
+[root@iZwz9fsrejd28mi5j7ngapZ fd]# df -Tha
+Filesystem     Type         Size  Used Avail Use% Mounted on
+/dev/xvda1     ext3          40G  3.7G   34G  10% /
+proc           proc            0     0     0    - /proc
+sysfs          sysfs           0     0     0    - /sys
+devpts         devpts          0     0     0    - /dev/pts
+tmpfs          tmpfs        498M     0  498M   0% /dev/shm
+none           binfmt_misc     0     0     0    - /proc/sys/fs/binfmt_misc
+none           xenfs           0     0     0    - /proc/xen
+[root@iZwz9fsrejd28mi5j7ngapZ fd]#
+proc文件系统挂载点是/proc 而且使用的是内存的空间，不是使用磁盘的空间。此文件系统里的内容停电会丢失。
+挂载点（挂载目录）：访问点，通过这个目录去访问proc文件系统里的内容
+直接使用内存的空间当硬盘使用。内存速度快，磁盘速度慢。
+====
+分区和磁盘的关系：在磁盘里划分分区
+===
+[19:29:38 root@zoro fd]#w  查看哪些用户登录linux系统
+ 19:30:08 up 2 days,  8:04,  2 users,  load average: 0.00, 0.00, 0.00
+USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+yiguowen tty1     -                13:43    2:29m  0.37s  0.37s -bash
+root     pts/2    192.168.0.188    16:35    0.00s  1.00s  0.10s w
+[19:30:08 root@zoro fd]#
+USER 用户名
+TTY 终端的类型   terminal type 
+终端：最终和用户交互的端口
+tty1 终端类型表示用户是直接登录系统的，不是远程登录  ---》正式工
+pts/0  到pts/10   终端类型表示模拟终端或者仿终端（用户是使用某个软件远程（Xshell等）） ---》临时工
+[19:41:57 root@zoro fd]#ssh root@192.168.0.189  
+ssh是远程登录的命令
+root 使用root用户登录
+@192.168.0.189 登录这台机器
+===
+550556754
+===
+[root@localhost fd]# ll /dev/std*
+lrwxrwxrwx. 1 root root 15 3月  30 07:34 /dev/stderr -> /proc/self/fd/2
+lrwxrwxrwx. 1 root root 15 3月  30 07:34 /dev/stdin -> /proc/self/fd/0
+lrwxrwxrwx. 1 root root 15 3月  30 07:34 /dev/stdout -> /proc/self/fd/1
+[root@localhost fd]#
+不是所有的进程里都有0 1 2 文件描述符
+===
+但是bash程序里肯定有，为什么？
+因为我们输入命令，bash帮助我们去查找，执行，输出结果给我们，牵涉到输入和输出
+===
+终端:一个通道连接到Linux系统里，然后控制操作Linux系统的。
+tty类型的终端是控制台类型的（直接登录linux系统，去控制系统的终端），默认情况下进入系统，会分配tty1终端给用户
+pts/0-200等类型：其实是模拟出来的仿终端，是其他的程序模拟的。---》远程登录或者图形界面打开终端。
+===
+ctrl+alt+F1-F6 可以开启6个控制台，每个控制台就相当于一条通道连接到linux系统里，如果每个通道卡住了，可以通过其他的控制台（tty终端）连接到linux系统里。
+也可以通过ssh远程连接到linux系统里。
+===
+proc文件系统：/proc文件系统是Linux内核的一个虚拟文件系统，在内存里。 -p "please input your number:" num

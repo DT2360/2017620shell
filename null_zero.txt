@@ -1,0 +1,119 @@
+
+ot@localhost lianxi]# mkdir bin  &>/dev/null
+===
+[root@localhost lianxi]# useradd chen
+useradd：用户“chen”已存在
+[root@localhost lianxi]# useradd chen  &>/dev/null
+[root@localhost lianxi]#
+[root@localhost ~]# read -p "please input your user name:"  u_name
+please input your user name:chenxingming
+[root@localhost ~]# echo $u_name
+chenxingming
+[root@localhost ~]# 
+read命令的作用：读取用户从键盘输入的内容，然后赋值给变量，可以给予提醒信息
+-p  提醒信息  prompt 
+u_name 是变量名
+#!/bin/bash
+
+read -p "please input your user name:"  u_name
+
+useradd $u_name &>/dev/null
+
+if [ $? == 0 ];then
+    echo "create user $u_name success"
+else
+    echo "user $u_name is exist"
+fi
+====
+>
+>>
+$?
+
+2>
+2>>
+&>
+&>>
+cat >1.txt 2>&1
+cat &>1.txt
+
+<
+<<
+read
+====
+[root@localhost ~]# a=`seq 5`
+[root@localhost ~]# echo $a
+1 2 3 4 5
+[root@localhost ~]# seq 5
+1
+2
+3
+4
+5
+[root@localhost ~]# meinv=libb
+[root@localhost ~]# cc=`echo $meinv`
+[root@localhost ~]# echo $cc
+libb
+[root@localhost ~]#
+===
+缩进  tab ----》让代码规范，有看。
+shell不缩进也不会报错，可以允许，但是代码不规范
+python里必须缩进
+
+===
+#!/bin/bash
+
+>number.txt
+read -p "please input your lucky number:" lucky_num
+for i in `seq $lucky_num`
+do
+    echo $i >>number.txt
+done
+===
+
+#!/usr/bin/python
+#coding=utf-8
+
+lucky_num = raw_input("please input your lucky number:")
+
+for i in  range(int(lucky_num)):
+    print i
+===
+; 分号作用：命令连接符号
+先执行前面的命令，然后执行后面的命令。而且不管前面的命令执行是否成功，都会执行后面的命令。
+
+[root@localhost lianxi]# ls ;mkdir aa  
+===
+/dev/zero 系统的零发生器,专门产生0
+===
+[root@localhost lianxi]# dd if=/dev/zero  of=/lianxi/aa.dd count=10 bs=1M
+记录了10+0 的读入
+记录了10+0 的写出
+10485760字节(10 MB)已复制，0.0932707 秒，112 MB/秒
+[root@localhost lianxi]#
+dd 是一个转换和复制文件的工具
+if    if=FILE
+              read from FILE instead of stdin  --》input file
+ of=FILE
+              write to FILE instead of stdout  ---》output file
+count=N
+              copy only N input blocks 
+bs=BYTES    block size
+              read and write up to BYTES bytes at a time            
+===
+[root@localhost ~]# yum install dstat  安装dstat命令
+
+[root@country ~]# dd if=/dev/zero  of=/dev/null  消耗cpu资源
+[root@country lianxi]# dstat  查看cpu和磁盘、内存、网络的使用情况 
+----total-cpu-usage---- -dsk/total- -net/total- ---paging-- ---system--
+usr sys idl wai hiq siq| read  writ| recv  send|  in   out | int   csw 
+  1   1  98   0   0   0|  53k  536k|   0     0 |1045B 2387B|  51   141 ^C
+  usr 表示用户态进程消耗的cpu资源
+  sys 表示内核态的进程消耗的cpu资源
+  内核态进程：运行内核代码的进程的状态
+  用户态进程：运行普通的应用程序的代码的状态。
+  idl 是cpu空闲的比率  idle
+[root@country lianxi]#
+[root@country ~]# dd if=/dev/zero  of=/lianxi/aa.dd  消耗磁盘空间资源
+===
+\  转义字符：作用让特殊字符转到它本身的含义。
+===

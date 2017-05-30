@@ -1,0 +1,16 @@
+wap分区:交换分区：从磁盘里划分一块空间出来，当物理内存不足时，用来临时存放内存里的数据。
+===
+[root@localhost proc]# cat /proc/sys/vm/swappiness 
+30
+[root@localhost proc]#
+===
+[root@localhost proc]# vim /etc/sysctl.conf 
+vm.swappiness=0  
+===
+[root@localhost proc]# sysctl -p
+fs.file-max = 65535
+vm.swappiness = 0
+[root@localhost proc]#
+[root@localhost proc]# cat /proc/sys/vm/swappiness 
+0
+[root@localhost proc]# 

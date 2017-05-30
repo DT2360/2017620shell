@@ -1,0 +1,65 @@
+o
+  -e     enable interpretation of backslash escapes  
+ -n     do not output the trailing newline 
+[root@localhost ~]# echo  -e "hello\tworld"
+hello	world
+[root@localhost ~]# echo  -e "hello\nworld"
+hello
+world
+[root@localhost ~]# 
+\t  tab键
+\n  newline 新的行
+===
+echo -n "please input your name:"
+read aa
+等效于下面的
+read -p "please input your name:" aa
+====
+echo -n -e "please\tinput\tyour\tname:"
+read aa
+read -p "please input your name:" aa
+====
+[root@localhost ~]# echo -e "\e[31m hello \e[0m"
+ hello 
+[root@localhost ~]# echo -e "\e[32m hello \e[0m"
+ hello 
+[root@localhost ~]# echo -e "\e[33m hello \e[0m"
+ hello 
+[root@localhost ~]# echo -e "\e[33;41m hello \e[0m"
+ hello 
+[root@localhost ~]# echo -e "\e[33;42m hello \e[0m"
+ hello 
+[root@localhost ~]# echo -e "\e[33;43m hello \e[0m"
+ hello 
+[root@localhost ~]# echo -e "\e[33;44m hello \e[0m"
+ hello 
+[root@localhost ~]#
+\e[31m   ----》代表红色
+\e[32m   ----》代表绿色
+\e[33m   ----》代表黄色
+\e[34m   ----》代表蓝色
+\e[0m   ----》取消前面设置的颜色
+[root@localhost ~]# echo -e "\e[34m hello  feng \e[0m \e[33m de yong \e[0m"  不同的字符显示不同的颜色
+ hello  feng   de yong 
+[root@localhost ~]#
+[root@localhost ~]# echo -e "\e[33;41m hello \e[0m"
+ hello 
+[root@localhost ~]#
+33 是字符的颜色
+41 是背景颜色
+===
+[root@localhost ~]# echo -e "\033[34m hello \033[0m"
+ hello 
+[root@localhost ~]#
+\033 等效于\e
+====
+[root@localhost ~]# cat menu.sh 
+#!/bin/bash
+
+echo -e "\t\t\t\e[31m menu list \e[0m"
+echo -e "\t\t1\t\e[32m disk information \e[0m"
+echo -e "\t\t2\t\e[33m cpu information \e[0m"
+echo -e "\t\t3\t\e[34m memory information \e[0m"
+echo -e "\t\t4\t\e[35m network information \e[0m"
+[root@localhost ~]#
+===

@@ -1,0 +1,57 @@
+、pwd、echo、ps aux
+只要执行命令能在屏幕上产生内容，就可以进行输出重定向。
+===
+====
+改变标准输入、标准输出的方向就是重定向  --->乾坤大挪移
+
+>  正确输出重定向   --》如果后面接的文件不存在，就会新建，如果文件存在会覆盖原来的内容。
+>>   追加输出重定向  ---》如果后面接的文件不存在，就会新建，如果文件存在不会覆盖原来的内容，只是追加到文件的末尾。
+<  输入重定向
+==
+[root@localhost lianxi]# cat 1.txt  >2.txt
+===
+[root@localhost lianxi]# >2.txt  清空2.txt文件里的内容，如果2.txt不存在就新建
+===
+[root@localhost lianxi]# wc <1.txt 
+ 3  3 18
+[root@localhost lianxi]# wc 1.txt 
+ 3  3 18 1.txt
+[root@localhost lianxi]#
+===
+$? 代表上一条命令的执行结果，如果为0，表示上一条命令执行成功，非0表示执行失败。
+===
+[root@localhost lianxi]# echo $?
+127
+[root@localhost lianxi]# 
+====
+命令选项不对   1
+命令不存在	127
+命令参数不存在 2
+====
+[root@localhost lianxi]# mkdir -u jfdkjf  ---》命令选项不对  
+mkdir：无效选项 -- u
+Try 'mkdir --help' for more information.
+[root@localhost lianxi]# echo $?   
+1
+[root@localhost lianxi]#
+2> 错误的输出重定向，只有发生错误的时候，才会执行错误重定向，如果后面接的文件不存在，就会新建，如果文件存在会覆盖原来的内容
+2>> 追加，---》如果后面接的文件不存在，就会新建，如果文件存在不会覆盖原来的内容，只是追加到文件的末尾。
+&>  不论是正确的输出，还是错误的输出都往一个文件里重定向.会覆盖原来的内容
+&>> 追加  不论是正确的输出，还是错误的输出都往一个文件里重定向.不会覆盖原来的内容
+>a.txt 2>&1 等效于&>a.txt
+>>a.txt 2>&1 等效于&>>a.txt
+
+&>>不会覆盖原来的内容
+>a.txt  清空文件a.txt里的内容，如果文件存在就清空文件，如果不存在就新建这个文件
+====
+here document的介绍
+	作用；就是生成一个指定内容的文档。
+
+====
+[root@localhost lianxi]# cat >chen.txt  <<EOF
+> CHENxingming
+> nongda
+> linux
+> 24
+> yongzhou
+> EOF

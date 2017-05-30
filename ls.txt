@@ -1,0 +1,12 @@
+aa
+anaconda-ks.cfg
+binbing123
+file2
+for1.sh
+for2.sh
+for.sh
+if.sh
+install.log
+install.log.syslog
+ls.txt
+path2
